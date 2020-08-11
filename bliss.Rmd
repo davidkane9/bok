@@ -1,0 +1,45 @@
+---
+title: "BLISS"
+output: html_document
+---
+
+## Daily Planning
+
+### Evelyn
+
+Create shell for tutorials 5, 6, 7 and 8.
+
+Make chapter 11 knit.
+
+Highlight the issue of different objective functions. RMSE should not be privileged just because people did not have computers 50 years. 
+
+Highlight the subtle issue of comparisons. 
+
+Go back to themes.
+
+
+### Miro
+
+Do simple glm for first two examples, then tidymodels for full example.
+
+Chapter 12 this week.
+
+
+## Chapters 11 and 12
+
+Chapters 11 and 12 need to be completely revamped. Some notes:
+
+1) No more bootstrap. We have demonstrated enough times that, with a bootstrap, you get the same answer as the lm/glm results. We don't need to prove it again.
+
+2) Everything is tidymodels from start to finish. This is a little "unfair," in the sense that we won't be giving a full tour of the way that normal people use glm, like we did with lm in previous chapters. (Or, I guess we might quickly with glm in chapter 12.) But it is better to spend more time on modern methods.
+
+3) Drop the empirical logit nonsense from chapter 12.
+
+4) With logistic regression, I think it is still useful to explain the meaning of the coefficients for discrete and continuous variables, but we probably can do it faster, with just one multi-variate regression.
+
+5) I am not sure what, if anything, we are doing with causation in these chapters. 
+
+6) Which data sets are we using? 
+
+7) Are we doing anything with rstanarm? Or is that already covered enough in chapter 10?
+

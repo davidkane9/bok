@@ -1,0 +1,58 @@
+---
+title: "Animation Ideas"
+date: "5/11/2020"
+output: html_document
+---
+
+
+This document contains a listing of animation ideas, along with commentary on implementation details. See the botton for general resources.
+
+## Ideas
+
+### Standard Error
+
+https://tinystats.github.io/teacups-giraffes-and-statistics/06_standardError.html#creating_a_sampling_distribution 
+
+### Forecasting
+
+https://twitter.com/drob/status/1258848108814962689
+https://constancecrozier.com/2020/04/16/forecasting-s-curves-is-hard/
+
+### Histograms
+
+https://tinlizzie.org/histograms/
+
+### CART
+
+Animation of how CART works, once we have an estimated model. Each new observation goes down through the tree, making the right choice at each branch until it finishes in a leaf. See [r2d3](http://www.r2d3.us/) for inspiration. But can that work in R?
+
+### Regression to the mean
+
+### Garden of forking paths
+
+### Type M and S errors.
+
+### Simpson's Paradox
+
+### On permutation tests using Lady Tasting Tea
+
+### Other Ideas
+
+* Paul Revere [social network](https://kieranhealy.org/blog/archives/2013/06/09/using-metadata-to-find-paul-revere/) 
+
+* Federalist Papers [authorship](https://www.hvitfeldt.me/blog/authorship-classification-with-tidymodels-and-textrecipes/)
+
+
+
+## Reseources
+
+https://simplystatistics.org/2017/08/08/code-for-my-educational-gifs/   
+https://cran.r-project.org/package=TeachingDemos   
+https://github.com/daranzolin/d3rain   
+One interesting example at the bottom: https://sarahromanes.github.io/post/gganimate/  
+https://yihui.org/animation/
+https://www.autodeskresearch.com/publications/samestats
+http://www.r2d3.us/
+
+Why not have [animations](https://gganimate.com/articles/gganimate.html) for almost everything? Check out [the ones](https://nickchk.com/causalgraphs.html) by Nick Huntington-Klein. His work is the main inspiration for this project. One showing how loess works. How logistic curve changes as the data changes. How regression lines can be made parallel and then have different slopes. Anscombe Quartet into a [dinosaur](https://blog.revolutionanalytics.com/2017/05/the-datasaurus-dozen.html). Lots of possibilities. 
+

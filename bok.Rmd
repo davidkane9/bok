@@ -1,0 +1,108 @@
+---
+title: "Visualizing Data Science"
+date: "Summer 2020"
+author: "David Kane"
+output: html_document
+---
+
+# Next Meeting
+
+
+https://github.com/agmath/AppliedStatsInteractive
+
+https://github.com/allisonhorst/stats-illustrations
+
+https://bookdown.org/roback/bookdown-BeyondMLR/
+
+https://bookdown.org/yihui/rmarkdown-cookbook/equatiomatic.html
+
+```{r echo=FALSE, fig.margin=TRUE}
+knitr::include_graphics("https://imgs.xkcd.com/comics/scientist_tech_help.png")
+```
+
+Can also add a fig.caption. 
+
+```{r echo=FALSE, fig.cap="[Don Rubin was a professor of Statistics at  Harvard.](https://www.uni-bamberg.de/fileadmin/bagss/Bilder/Editorial/21711197.jpg).", fig.margin = TRUE}
+knitr::include_graphics("03-rubin-causal-model/images/don_rubin.jpg")
+```
+
+https://bookdown.org/yihui/rmarkdown-cookbook/install-latex.html
+
+Bug in bookdown: if you have a section title that is the same as the section title elsewhere, and one of those section titles has a reference, then there will be a conflict. But perhaps this only arises if your section title is the same as the name of one of our chapters?
+
+Lesson: Do not use a section title which is the same as the title of one of our chapters. It messes up the menu.
+
+Section headings (other than Chapter titles) are in sentence case (with only the first word capitalized, unless it is something always capitalized) rather than title case (in which all words except small words like "the" and "of" are capitalized. Chapter titles (Continuous Response) are in title case. Section heading do not end with a period.
+
+Switch Courage for Fortitude
+
+Make a 15 second video, put it on YouTube, add it as as sidemargin. "We don't estimate parameters because we care about parameters. Parameters are imaginary! Like unicorns! [Put finger on forehead and imitate unicorn.] We estimate parameters to build Data Generating Mechanisms. And with a DGM, you can move the world!"
+
+
+## Research Associates, Harvard Project on Visualization and Data Science
+
+Jessica Edwards; chapter 1
+Emma Freeman; chapter 2
+Cassidy Bargell; chapter 3 
+Evelyn Cai; chapter 4
+
+Vivian Zhang; chapter 5
+Mak Famulari; chapter 6
+Tahmid Ahmed; chapter 7  
+Miro Bergam; chapter 8  
+
+Hannah Valencia; chapter 9
+Erin Guetzloe; chapter 10  
+Evelyn Cai; chapter 11
+Miro Bergam; chapter 12
+
+Thomas Weiss; PPBDS.data
+Yao Yu; book-builder
+Shea Jenkins; tester
+Jake Berg; tester
+Liam Rust; tester
+Colin Rust; tester
+Carine Hajjar; gt and gtsummary appendix
+
+Tyler Simko
+Alla Baranovsky
+
+
+## When People Join
+
+Follow instructions in set-up.Rmd. Ask Miro for help. Choose a sensible branch name.
+
+When you come across something interesting, e-mail me the link. I will add it to the agenda for our next meeting.
+
+Whenever you ask a public question, send me a link.
+
+https://community.rstudio.com/t/combining-multiple-plots-into-animation-within-r-markdown/63181
+
+https://github.com/kjhealy/covdata/issues/3
+
+https://tinlizzie.org/histograms/
+
+# Bok Proposal
+
+### Visualization and Data Science
+
+There are a dozen or more data science courses at Harvard, scattered across our schools and departments. All seek to draw meaning from data. My project, "Visualization and Data Science," seeks to build a collection of open-source vignettes, each explaining a different aspect of data science in a pedagogically sophisticated way, almost always via the use of visualizations. My textbook, Preceptor's Primer for Bayesian Data Science, is a basic example of what is possible. See, for example, the appendices devoted to mapping and animation.  Working with students from the Bok Center, I hope to create dozens of these lessons, each freely available for use in other Harvard classes and around the world.
+
+David Kane is the Preceptor in Statistical Methods and Mathematics in the Department of Government. His courses, Gov 50: Data and Gov 52: Models, are two of the highest-rated lecture courses at the College.
+
+
+# Testers
+
+## Shea
+
+
+## Jake
+
+Do chapter 2. Read whole chapter and do latest version of the tutorial (install latest version). Send cool comments.
+
+* Please confirm that you run the Tutorial 0 in R Studio Cloud, and send me and Evelyn responses.rds.
+
+## Conor and Liam
+
+
+

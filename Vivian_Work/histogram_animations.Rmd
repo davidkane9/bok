@@ -1,0 +1,170 @@
+---
+title: "Histogram Animations"
+author: "Vivian Zhang"
+date: "5/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(gov.1005.data)
+library(gganimate)
+library(tweenr)
+library(ggforce)
+library(ggExtra)
+library(infer)
+library(magick)
+library(tidyverse)
+
+```
+
+What I am trying to replicate:
+https://tinystats.github.io/teacups-giraffes-and-statistics/06_standardError.html#creating_a_sampling_distribution
+
+Interesting research about the trade-offs that come with binwidth:
+- https://www.tandfonline.com/doi/abs/10.1080/00031305.1997.10473591
+
+Freedman-Diaconis rule for optimal binwidth
+https://stats.stackexchange.com/questions/798/calculating-optimal-number-of-bins-in-a-histogram
+https://en.wikipedia.org/wiki/Freedman%E2%80%93Diaconis_rule
+
+Information on placing animations side by side with magick:
+https://github.com/thomasp85/gganimate/wiki/Animation-Composition
+
+```{r samples animation}
+
+# Select show many samples
+
+rep_count <- 100
+
+# Creating samples for LHS
+
+one_draw_left <- train %>% 
+  rep_sample_n(size = 30, reps = rep_count, replace = TRUE) %>%
+  group_by(replicate) %>%
+  select(replicate, age)
+
+# Collecting mean data for RHS
+
+sample_means_right <- one_draw_left %>%
+  group_by(replicate) %>%
+  summarize(my_sample_mean = mean(age))
+
+one_draw_left <- one_draw_left %>%
+  left_join(sample_means_right, by = "replicate") %>%
+  select(replicate, age, my_sample_mean)
+
+# First, let's focus on animating the plot on the left hand side
+# bw helps uses the Freedman-Diaconis rule to find optimal binwidth
+
+bw <- 2 * IQR(one_draw_left$age) / length(one_draw_left$age)^(1/3)
+
+# ggplot for LHS
+
+p_left <- ggplot(one_draw_left, aes(x = age)) +
+  geom_dotplot(binwidth = bw, method = "histodot", dotsize = 1, fill = "forest green") +
+  scale_x_continuous(breaks = seq(0, 90, 15)) +
+  labs(title = "Sample of 30 Boston Commuters",
+       subtitle = "Animation cycling through 100 samples, one at a time",
+       x = "Commuter Age",
+       y = "Count") +
+  scale_y_continuous(limits=c(0, 1), expand = c(0, 0), breaks = seq(0,1,1/20), labels=seq(0,20))+
+  theme_light() +
+  coord_fixed(ratio=bw*20) +
+  theme(panel.background=element_blank(),
+                            panel.border = element_blank(),
+                            panel.grid.minor = element_blank(),
+                            axis.line = element_line(colour = "black"),
+                            axis.line.y = element_blank()) +
+  geom_vline(aes(xintercept = one_draw_left$my_sample_mean), linetype = "dashed") +
+  transition_states(replicate,
+                    transition_length = 0.5,
+                    state_length = 100)
+
+# save the animation to left_gif to later format the grid
+
+left_gif <- animate(p_left, width = 400, height = 400)
+
+```
+
+```{r moving histogram animation}
+
+# Right hand graph, cycles through many histograms, adding one replicate at a
+# time
+
+# Function that creates individual images in the animation
+
+moving_histogram <- function(x){
+  
+  sample_means_right %>%
+    filter(replicate <= x) %>%
+    mutate(image_number = x)
+  
+}
+
+# Creating sample_df, where the individual images will be merged
+
+sample_df <- data.frame()
+
+for (i in 1:100) {
+  
+  sample_df <- rbind(sample_df, moving_histogram(i))
+  
+}
+
+# Using the Freedman-Diaconis rule to once again find optimal binwidth
+
+right_bw <- 2 * IQR(sample_means_right$my_sample_mean) /
+  length(sample_means_right$my_sample_mean)^(1/3)
+
+# Plot call for RHS
+
+p_right <- ggplot(sample_df, aes(x = my_sample_mean)) +
+  geom_histogram(binwidth = right_bw, fill = "forest green", color = "white") +
+  labs(title = "Sampling Distribution",
+       subtitle = "Building distribution using samples on the left hand graph",
+       x = "Sample Means",
+       y = "Count") +
+  theme_light() +
+  theme(panel.background=element_blank(),
+                            panel.border = element_blank(),
+                            panel.grid.minor = element_blank(),
+                            axis.line = element_line(colour = "black"),
+                            axis.line.y = element_blank()) +
+  transition_states(image_number,
+                    transition_length = 0.5,
+                    state_length = 100)
+
+# Saving as gif for later grid formatting
+
+right_gif <- animate(p_right, width = 400, height = 400)
+
+```
+
+```{r formatting}
+
+# Formatting the two plots
+
+left_mgif <- image_read(left_gif)
+right_mgif <- image_read(right_gif)
+
+new_gif <- image_append(c(left_mgif[1], right_mgif[1]))
+
+for(i in 2:rep_count){
+  combined <- image_append(c(left_mgif[i], right_mgif[i]))
+  new_gif <- c(new_gif, combined)
+}
+
+new_gif
+
+```
+
+
+```{r saving animation as gif}
+
+# Saving the grid as a gif
+
+anim_save("histogram.gif", new_gif)
+
+```

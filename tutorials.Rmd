@@ -1,0 +1,478 @@
+---
+title: "Tutorials"
+author: "David Kane and Evelyn Cai"
+output: html_document
+---
+
+<!-- Open Questions: -->
+
+<!-- We need tutorials about using Git, using the command line and other non-R stuff. -->
+
+```{r not-setup, include=FALSE}
+library(tidyverse)
+library(learnr)
+```
+
+The first part of this document is a guide for people who are writing tutorial questions. The second part covers the mechanics of creating the tutorial.Rmd files themselves. The third section covers miscellaneous topics. Colleagues who are just writing questions only have to read the first part.
+
+## Instructions for Writing Questions
+
+If you are new to R/RStudio/Markdown, then read [this intro book](https://ismayc.github.io/rbasics-book/). Then, skim [this site](https://rstudio.github.io/learnr/) about tutorials. You do not have to read all that. Focus on the [Exercises section](https://rstudio.github.io/learnr/exercises.html).
+
+### Basic Guidelines
+
+* Do not number your questions. It serves no purpose. Also, there is no need for a title or other indication at the beginning of a question. Just type your question.
+
+* Do not provide answers. There is no need to grade what the students submit.
+
+* You do not always need to provide a hint, but it is often useful to do so. If you provide a hint, make sure to have eval=FALSE as an R code chunk option. This is needed because the hints will often include ... and other symbols which do not check as correct R code. So, we need to tell R not to run it. All code in a tutorial must work.
+
+* Be careful about defining an object in one question and then assuming that it will be available in subsequent questions. For example, if you ask students to create a function five_flips() that flips a coin five times, you need to be careful about assuming that that function is around later for students to use. Why would it be? What if they got that question wrong? Better that that be a stand-alone question. If you need a function like that later, just define, at the start of this new question, the function three_flips() however you like. Then ask the student to use that. 
+
+* Best bet, as discussed below, is to build multi-part questions slowly and always include earlier parts of the answer in later questions. As long as you use the "Continue" trick, students won't see those later sections until they get to them. (I guess that lazy students could skip ahead, see/copy the answers for earlier questions, and then go back and fill them in. Don't worry about that scenario.)
+
+* No spaces around "=" in R code chunk options. That is, write `eval=FALSE`, not `eval = FALSE`.
+
+* Do not use multiple choice too often. When you do, don't allow multiple submissions. If you do, students will just try all of them until they get the right answer.
+
+* If you want to provide an example code chunk, either in the answer block or in the hint, use "..." to indicate a spot which students need to fill in with a variable name or argument value or whatever. Example:
+
+```{r, eval=FALSE}
+qscores %>% 
+  ggplot(aes(...)) %>% 
+    geom_hist()
+```
+
+The question would tell the student to replace ... with `hours` in order to construct a histogram. It is a requirement that you have eval=FALSE set, otherwise the tutorial won't pass the testing system because the code you have provided is not legal R code. (It is still fine to do this, though.)
+
+* Format your code nicely, as we do in the examples below. The key is using only one command per line in pipes and graphics, with proper indentation. Indent lines after ggplot().
+
+* Code chunks for questions must be named, as you have probably already discovered. Don't worry about the naming/numbering, as long as the code chunks don't have duplicate names. Check out this link for more information: https://rstudio.github.io/learnr/exercises.html#Hints_and_Solutions
+
+### Data
+
+* Only use built-in datasets in constructing tutorial questions, or use datasets which you create yourself in the tutorial. Note that several packages from the **tidyverse** have built in data, although it is worth making sure that they are tibbles rather than data frames. To see all the datasets in the Tidyverse, type `library(tidyverse)` first.  Then, you can look at these with --- `data()` --- and then looking for data sets associated with **tidyverse** packages. The `diamonds` tibble is a favorite of mine. Just type `data()` and you can see all the built-in datasets for the libraries which are already loaded.  You can also use data sets from **PPBDS.data**. I especially like `trains` and `qscores`. I see little reason to use datasets outside of **tidyverse** packages and **PPBDS.data**.
+
+### Organization
+
+* Use `## Title` to break up your tutorial into smaller pieces. We don't want one giant set of 200 questions. We want 25 chapters/panels/tabs/whatever-we-call-them, with 20 or so questions each.  There should be a direct mapping of these headers to the subpart (or sub-subpart) of the portion of the chapter which they cover. In neither case do we worry about the numbering. (That is too annoying to deal with.) Instead, we just make the words map. It is OK if you have two panels with the same name. This might be necessary of a given subpart needs lots and lots of questions. But, obviously, it is better if there is a one-to-one mapping between chapter subparts and tutorial panels. Also, there will often be chapter subparts with no corresponding tutorial panels.
+
+In other words, if there is a subpart of your chapter called "Barplot", then the header for the section of the tutorial which covers that should be `## Barplot`. If you have so many questions from this part of your chapter, then split them up by subpart and change the section headings accordingly.
+
+* Use `### Sub Title` to set of a collection of questions which go together. This will not be visible in the side panel but can still be helpful to students.
+
+* Use `###` with no words to cause a "Continue" button to appear, which is termed "progressive," so that students are not overwhelmed with all the questions they need to do. This will cause R not to show students the next set of questions until they have finished the current set and hit Continue.
+
+### Question Groups
+
+Build up a series of questions slowly. A "series" of questions entails a group of about 5 questions that relate to each other and use the same dataset. The last question in a series should have achieved something when compared to the first question in your series. Questions in the series are often separated by `###`. If they are not, then the group as a whole is certainly seperated from the next group with `###`.
+
+#### Plots
+
+Example series of questions for building a barplot:
+
+  + First question provides the code in the box for a barplot and just says, "Press Run Code"
+  
+```{r, eval=FALSE}
+trains %>% 
+  ggplot(aes(party)) +
+    geom_bar()
+```
+
+Nothing wrong with getting students started. Of course, this might make them somewhat less likely to open the book to the section about barplots, but later questions should essentially force the student to consult the book.
+  
+  + Second question asks for a different bar plot and provides a detailed hint, which would leave ... for the variable names but include everything else.
+
+```{r, eval=FALSE}
+cces %>% 
+  ggplot(aes(race)) +
+    geom_bar()
+```  
+
+Note that this nothing wrong with switching variables or even data sets. We are teaching a plot. So, it is good that students see the same plot type with different data.
+  
+  + Third question has no hint but just asks for bar plot. But it is easy as long as you understand the second question.
+  
+```{r, eval=FALSE}
+trains %>% 
+  ggplot(aes(gender)) +
+    geom_bar()
+``` 
+
+This is, obviously, the exact same code as the first two questions, with just the data/variables changed. Very easy. And that is a good thing! 95% of the students should find 95% of the questions easy. Hard questions are for problem sets, not tutorials.
+
+  + Fourth question says, take the above code and then use a new option, like position or group or whatever.
+  
+  
+```{r, eval=FALSE}
+trains %>% 
+  ggplot(aes(gender)) +
+    geom_bar(width = 0.5)
+```   
+  
+You can give hints if you like. Again, questions should be easy, at least after someone has seen the hint. 
+  
+  + Fifth question shows a bar plot and asks to reproduce. This plot might also include a simple title, axis labels, and caption.
+  
+```{r, eval=FALSE}
+cces %>% 
+  ggplot(aes(y = marstat)) +
+    geom_bar(width = 0.2) +
+    labs(title = "Marriage Status in the CCES",
+         x = "Number of Individuals",
+         y = NULL,
+         caption = "Source: Combined Congressional Election Survey")
+```  
+
+You may assume that a student has already learned about `labs()`. Is it redundant for everything fifth question to require the use of `labs()` like this? No! It is a good thing! You get good and making nice plots by making lots and lots of them. Each group of five does some new things --- a new geom, a new argument on a geom --- and some of the same old things, like `labs()`.
+
+  
+#### Data Analysis  
+  
+Example series of questions for data analysis:
+
+  + First question asks to load the necessary package:
+  
+```{r, eval=FALSE}
+library(PPBDS.data)
+```
+  
+  Don't have to do that every time, but there is nothing wrong with doing it occasionally, especially when starting to work with a new dataset. Or the question asks to load the library and just print the data set.
+  
+  + Second question asks to select specific variables from the tibble. We are looking for an answer like:
+  
+```{r, eval=FALSE}
+qscores %>% 
+  select(name, department, rating, hours)
+```
+
+  This is good to do first because doing so allows for the results of `glimpse()` or `sample_n()` to be easier to interpret it. The key thing is that we are building a pipe. The "answer" is the pipe we have built. We don't require the student to create an object with certain properties. In fact, they are not creating anything.   
+  
+  + Third question is to tells the student to run `glimpse()`, `sample_n()`, `summary()` or even `skimr::skim()` on the current pipe. The more that students get used to exploratory data analysis the better.
+  
+```{r, eval=FALSE}
+qscores %>% 
+  select(name, department, rating, hours) %>% 
+  sample_n(5)
+```  
+
+Mix it up! Don't always tell the student to run `glimpse()`.
+
+  + Fourth question tells the reader to remove the `sample_n()` --- or whatever summary tool was used in the previous question --- and then add another step to the pipe. Example:
+  
+```{r, eval=FALSE}
+qscores %>% 
+  select(name, department, rating, hours) %>% 
+  filter(department %in% c("MATH", "ECON", "GOV"))
+```   
+
+Notice how similar this workflow is to both problem set questions and to paid employment. Notice, also, that we have led the students to create a tibble that is much easier to work with. From here, we will often go to `group_by()` and then `summary()`. 
+
+  + Fifth question finishes. If this is hard, we might provide a hint. Or maybe not. We certainly don't want these sets of questions to be too long. (Do we?) Example: Create a new variable called `avg_hours` which is the average hours per course in these three departments. Sort the result in descending order by `avg_hours`.
+  
+```{r, eval=FALSE}
+qscores %>% 
+  select(name, department, rating, hours) %>% 
+  filter(department %in% c("MATH", "ECON", "GOV")) %>% 
+  group_by(department) %>% 
+  summarise(avg_hours = mean(hours)) %>% 
+  arrange(desc(avg_hours))
+```  
+
+Does every sequence need to have every element here? No! But there is a lot of room for variation in this simple set up.  We night also show what we want the final tibble to look like (like we often do with plots) and then ask the student to replicate it.
+
+#### Variable Creation
+
+A similar sort of exercise involves the creation of new variables. This can be part of a data analysis question. Or it can be standalone. In that case, they are often quite short. Examples:
+
+Start with `qscores`. Select out `department` and `enrollment`. Create a column called `pop` from `qscores` which is TRUE for every course with more than 70 students.
+  
+```{r, eval=FALSE}
+qscores %>% 
+  select(department, enrollment) %>% 
+  mutate(pop = ifelse(enrollment > 70, TRUE, FALSE))
+```
+
+Of course, you could split that question into a couple of steps. The key point is that, when practicing simple functions like `ifelse()`, it is often useful to embedd the task within a pipe.
+
+Start with `qscores`. Create a column called `name_length` which is the number of characters in `name` and a column called `name_has_z` which is TRUE for every course which uses the letter z (lower case) in its name. Keep only three variables, `name_has_z`, `name_length`, and `name`.
+
+```{r, eval=FALSE}
+qscores %>% 
+  mutate(name_length = nchar(name)) %>% 
+  mutate(name_has_z = str_detect(name, "z")) %>% 
+  select(name_has_z, name_length, name)
+```
+
+Again, this could be split up into separate steps.
+
+You can also create a tibble on-the-fly and include the code in the question. Then ask the student to do something with the code. Starting with this:
+
+```{r, eval=FALSE}
+tibble(date1 = "12/01/2002")
+```
+
+Create an additional column called `new_date` which is date1 as a Date variable. Note that date under consideration is in December.
+
+```{r, eval=FALSE}
+tibble(date1 = "12/01/2002") %>% 
+  mutate(new_date = as.Date(date1, format = "%m/%d/%Y"))
+```
+
+
+#### Function Writing  
+  
+Example series of questions for writing a function:
+  + First question asks you to write a minimally viable piece of code that adds 1 + 1.
+  + Second question asks you to turn that minimally viable piece of code into a function, providing the answer to the first question as the starter code.
+  + Third question asks you to generalize the function, so instead of always returning `1+1` it might return `x+1`.
+  + Fourth question asks you to add in formal arguments and default values if applicable.
+  + Fifth question asks you to set any appropriate checks and `stopifnot()`s.
+  + Sixth question is a multiple choice question that asks what you get when you run the function with a certain argument.
+  
+* There is nothing wrong with individual questions, of course. But these groupings are much more natural, especially since they require students, by the end, to actual combining a bunch of differenty things.  
+
+
+### Other Topics
+
+* If you would like to write an open-ended question in which students can type out a text response, use `question_text()`. More information on the syntax can be found here: https://rdrr.io/cran/learnr/man/question_text.html
+
+* Make sure to regularly knit your tutorial to make sure it works. Always knit your tutorial before submitting a pull request. Even better is to run R CMD check to confirm that you have not broken one of the test cases.
+
+
+## Instructions for Creating the Actual Tutorial
+
+* We will be placing tutorials in the inst/tutorials directory of davidkane9/PPBDS.data. You will need to set up a fork of this repo, just as you did with PPBDS. Read set-up.Rmd for a reminder. Submit your changes via pull requests as before. Each tutorial is kept in its own directory. Example:
+
+inst/tutorials/01-visualizations/tutorial.Rmd
+
+In other words, your chapter number and title goes in the directory name, but individual tutorial files are just called "tutorial.Rmd". (Not sure if this is best.)
+
+* The YAML is:
+
+````rmarkdown
+---
+title: "Functions"
+output:
+  learnr::tutorial:
+      progressive: true
+      allow_skip: true
+runtime: shiny_prerendered
+description: "Chapter 4 tutorial"
+---
+````
+
+The title should be the same as the title for your chapter, with no numbers.
+
+The description is the caption that will show up beneath the title in the Tutorial pane. For now, keep it concise and mention the corresponding chapter.
+
+
+* The first code chunk looks like:
+
+````rmarkdown
+```{r setup, include=FALSE}
+library(tidyverse)
+library(learnr)
+library(shiny)
+library(PPBDS.data)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+options(tutorial.exercise.timelimit = 60)  
+```
+````
+
+You may also include other packages which your tutorial makes use of, but the first four are always needed. **shiny** is included because of its ability to create ordered lists of text for the Submit page. Why these defaults?
+  + echo is FALSE so that ... and messages are FALSE because . . .
+  + The default for tutorial.exercise.timelimit is 30 seconds. I think that this "turns off" the tutorial too quickly. 60 is better. 
+  
+
+* The first question should require that students give us their name. This way, when we generate a hash of a student's responses, their name is included in the hash and copy-pasting another student's hash is made impractical.
+
+````rmarkdown
+``` {r name, echo=FALSE}
+question_text("Student Name:",
+              answer(NULL, correct = TRUE),
+              incorrect = "Ok",
+              try_again_button = "Modify your answer",
+              allow_retry = TRUE)
+```
+````
+
+* The last section of your tutorial must look like:
+
+````rmarkdown
+## Submit
+```{r context="setup"}
+submission_ui
+```
+
+```{r context="server"}
+submission_server()
+```
+````
+
+This prints out instructions for students to generate a hash of their submissions, enter it, and download an .rds file containing their hash to be uploaded to Canvas. As you can see, Shiny UI elements are incorporated along with the `learnrhash` package.
+
+
+* A tutorial author can create a directory called "files" in her inst/tutorials/her_tutorial/ directory, in which she can place whatever she likes. Then, within her tutorial, code like:
+
+read_csv("files/mystuff.csv")
+
+should work, both in her examples and in her questions. You might also include jpg/png files here.
+
+* The most annoying part about writing questions is all the hints and answer checking. So don't do that first! Just write the questions, and include the answer. Then, once we decide we like the questions, you can move that answer to the hint, the answer check, whatever. Example:
+
+````rmarkdown
+### Question 1
+
+Load the gapminder library: 
+
+```{r exercise-1, exercise=TRUE}
+library(gapminder)
+```
+````
+
+You can add hints to your questions, but do not include the solutions. The questions should be straightforward enough to answer without solutions.
+
+If you are writing a multiple choice question, do not allow students to re-try the question if they get it wrong. They will just keep clicking boxes randomly.
+
+
+* No videos in tutorials. Minimal text in tutorials.
+
+* Have your tutorial follow the chapter, paragraph-by-paragraph. 
+
+* Make tutorial questions easy. 95% of students should be able to get 95% of the questions almost immediately. We save the tricky stuff for the problem sets. If you have a choice between an easy way of asking a question (for example, you provide the code framework) and a hard way (no code provided), then do both! Ask the easy way first, and then the hard way.
+
+* If you want to provide an example code chunk, use "..." to indicate a spot which students need to fill in with a variable name or argument value or whatever. Do not use "----" for this purpose. 
+
+<!-- DK: Or maybe "__" is the best approach? -->
+
+* If you are asking a complex question, it can be tough to check that the student's code is "correct" since there are so many ways in which a student might approach the problem. Simple solution: Check with a multiple choice question. There are many 4 line pipes which can answer a question. We don't care which approach students use, as long as they get the answer at the end.
+
+* You can test your tutorial by, first, pressing "Install and Restart" from the "Build" panel. This installs the whole **PPBDS.data** package and restarts your R session. Your tutorial should be available from the "Tutorial" pane. (Note that you must update your tutorial.html file first. That does not occur automatically. Do so by hitting "Run Document".)
+
+* When committing and pushing changes to your tutorial, do not commit the auxiliary "files" folder or the .html. This is because the tutorials are re-created purely based off of the .Rmd.
+
+* Tutorials which are run from the tutorial pane remember your responses from session to session. Click 'start over' if you'd like to clear this memory.
+
+* If you need to use a new package, let us know. We need to add it to the DESCRIPTION file. Once we do, you can assume it is installed and just type library(whatever) to access it.
+
+
+## Miscelaneous Topics
+
+### Background
+
+We will create our tutorials using the [learnr](https://rstudio.github.io/learnr/) package. See [here](https://education.rstudio.com/blog/2020/05/learnr-for-remote/) and [here](https://education.rstudio.com/blog/2020/07/learning-learnr/) for the latest from RStudio on the topic. 
+
+We will be using [learnrhash](https://github.com/rundel/learnrhash) to confirm completion.
+
+
+### Heroku Deployment Steps
+
+Previuously, we used Heroku to deploy the tutorials. We might still use this to deploy the book chapters. So, we will leave this here for now.
+
+1. Go to [this website](http://hmdc.gitbook.io/r/deploy/setupenvironment) and follow the steps to download Heroku. Git should already be installed.
+
+2. Create a Heroku account by signing up. Once you have permission from HMDC, you can link accounts. You can contact Evan Sarmiento/HMDC Support Staff [here](support@help.hmdc.harvard.edu).
+
+3. You need to have already created a Github repo with the necessary files (an index.Rmd, Dockerfile, heroku.yml, run.R, and an optional init.R. You can clone these from https://github.com/hmdc/heroku-docker-r-example-app/generate). Go to your Github repo and copy the cloning link.
+    a. Actually, init.R seems to speed up the deployment process considerably. So make an init.R file that installs every package you need.
+
+4. Go to a command line. Then, execute:
+  * `git clone [repo name]`
+  * `cd [repo name]`
+  * `heroku login` + enter.
+  
+5. This will take you to the log in page; make sure to log in via Harvard SSO by clicking "Log in via SSO" at the bottom left of the page, entering "g-harvard" for the SSO name, and entering your Harvard Key credentials when prompted. Once complete, you can return to the command line and close out the login tab. Execute:
+  * `heroku git:remote -a [app name]`
+  * `git push heroku master`
+
+6. Your app will be available at app-name.herokuapp.com. The working app URL can be found [here](https://gov-50.hmdc.harvard.edu/). Note that the app name is different from the repo name. The repo name is the one you have assigned it on Github; the app name corresponds to a Heroku container. In most instances, you will be deploying to pre-made containers. However, if you would like to create a new container/app name, execute `heroku create --stack=container [app name] --team=g-harvard` after the login step.
+
+Other Notes:
+    + When using an init.R file to download non-CRAN packages, you have to install ALL packages, including CRAN packages
+    + Your data is saved even if you refresh or X out, however the screen grays out as soon as you navigate away from the app
+    + Location of the tutorial information is in your Google Chrome local cache on your computer (My file path was C:\Users\evelyn\AppData\Local\Google\Chrome\User Data\Default\Cache)
+    + If we want to order tutorials using Shiny UI, refer to this [page](https://stackoverflow.com/questions/55596637/how-do-i-embed-tutorial-questions-from-learnr-into-a-full-shiny-app). I have an example at this repo: https://github.com/caievelyn/combined-tutorials
+    + You can include a csv file in the bundle of files for Heroku deployment and it'll work
+    + How many app deployments should it be? Will the app load faster if there are multiple smaller deployments, or is the load speed negligible enough to where all 12 tutorials can be bundled in a package?
+
+
+
+### Notes
+
+
+* Learnr: list.files(file.path(rappdirs::user_data_dir(), "R", "learnr", "tutorial", "storage")) shows the local path of answers
+
+* `View()` interacts poorly with Shiny
+
+* You can end a tutorial in a variety of ways:
+    + By closing out the pop-up window, if you clicked "Show in new window"
+    + By pressing the red "stop" sign in the tutorial pane
+    + By going to the Jobs tab in the bottom left quadrant of RStudio, clicking the "back" arrow if applicable, and clicking the red "stop" arrow
+
+### List of Useful Links
+
+* If we want to incorporate Shiny Clipr into the learnrhash submission area, reference Colin's code here: https://github.com/rundel/learnrhash/blob/master/R/shiny.R
+
+* It's not best practice to install non-CRAN dependencies automatically. If we do want to in the future, refer to the MiniCRAN package repository: https://community.rstudio.com/t/downloading-non-cran-dependencies-from-github/73211/2
+
+* If we want to incorporate '-' code placeholders, reference [this learnr fix.](https://github.com/rstudio/packrat/pull/551)
+
+* Allison Horst's naniar tutorial repo is here: https://github.com/allisonhorst/explore-na/blob/master/explore_na_tutorial.Rmd
+
+* Chapters 1 & 2 tutorial on HMDC: http://gov-50-ch-1.herokuapp.com/ and http://gov-50-ch-2.herokuapp.com/
+
+* Interesting use case at the Harris Coding Lab: Does [this](https://github.com/harris-coding-lab/codinglab/blob/master/inst/tutorials/basic-syntax/basic-syntax.Rmd) show a trick for recording what students do in their tutorial? The [entire project](https://github.com/harris-coding-lab) it comes from is worth looking at. Do things this way?
+
+* [Gradethis](https://rstudio-education.github.io/gradethis/) seems to be the RStudio-supported effort, although they don't advertise it much. See [here](https://mine-cetinkaya-rundel.github.io/feed-me-back/) for recent examples of its use. Note that, contrary to the website, it is not a CRAN. So, to install, you need:
+    + `remotes::install_github("rstudio-education/gradethis")`
+    + Do the Demo: 
+        + `library(gradethis)`   
+        + `gradethis::gradethis_demo()`  
+    + Here are two possible approaches:
+        + [RStudio](https://github.com/rstudio-education/datascience-box/tree/master/labs) and
+        + [Duke](https://www2.stat.duke.edu/courses/Spring20/sta199.001/labs/lab-01-hello-r.html).
+
+* http://www.r-exams.org/
+
+* Links for hosting options: 
+    + https://projects.iq.harvard.edu/slduncan/rshiny-application-hosting
+    + https://github.com/virtualstaticvoid/heroku-buildpack-r
+
+* Misc
+    + https://education.rstudio.com/blog/2020/07/learning-learnr/
+    + https://www.adventures-in-r.com/
+    
+* The [code for the RStudio Primers](https://github.com/rstudio-education/primers) is free for us to use! Why re-invent the wheel?
+
+* Does [this use of params](https://twitter.com/Adam_C_Garber/status/1262598144316997632) help in any way, either by making it easy to have questions vary across students for the same tutorial or to help standardize format across tutorials?
+
+* By the way, how can we control how many tutorials appear? How can we put ours at the top? How do we ensure that students know which ones are ours?
+
+### Suggestions from Allison Horst
+
+* She is concerned about user loads for published Shiny apps - would recommend that we use the basic or higher plan
+
+* She thinks using Desiree's method of embedding one exercise at a time might get unreasonable for a book of our size, but suggested that we could host 12 different ShinyApps corresponding to each chapter, and then link to each chapter in one central location. (Kind of like the combined tutorials app I created via HMDC)
+
+* How did you decide which exercises were going to be "tutorials" and which would be "exercises"? She wanted the exercises to be incremental, so a lot of the code was already pre-populated. The exercises that were blank built directly off of code that was already shown before, so that students could have an "easy win" by just copying the previous code and tweaking a variable name. Allison thinks that this incremental process is important for beginner R students.
+
+* How much memory does the ShinyApp consume? Do you know of any tricks to make learnr tutorials smaller? She recommends that we contact the team at RStudio Education - this is not her area of expertise. Allison says that the RStudio Education team is super eager to hear about learnr use cases, would be happy to talk to us, and would even ask us to write a blog post. She also mentioned that that team would know the most about cutting-edge learnr stuff, including things like a "completion rate" bar that shows students how far they are through a tutorial.
+
+* Any tips for remote teaching or learning? Using learnr at all is a big step. Allison also pre-records short versions of her lectures for her students to stream at a later time,  and holds smaller discussion sections in class where they do activities.
+
+* Allison's #1 Recommendation to remote teachers of R: Having students start out with RStudio Cloud and then transitioning to Desktop. You can set up workspaces so the necessary packages are already loaded and installed, any script is already pre-loaded, and all students need to do is log in. It looks exactly the same as RStudio Desktop except folks don't have to worry about installing R or RStudio. You can push/pull from git in RStudio Cloud as well (link to a Rstudio cloud tutorial/article: https://rstudio.com/resources/webinars/teaching-r-online-with-rstudio-cloud/)
+
+### Other Items
+
+* To create a hint based on custom markdown content simply add a <div> tag with an id attribue that marks it as hint for your exercise. Like this:
+
+<div id="filter-hint">
+**Hint:** You may want to use the dplyr `filter` function.
+</div>
+
+Maybe this is how we should do all hints, so as to avoid the compile error issue.
+
+* Do this someday!
+
+https://github.com/tinystats/teacups-giraffes-and-statistics

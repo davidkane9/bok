@@ -1,0 +1,23 @@
+---
+title: "Git/Github"
+output: html_document
+---
+
+The most important thing for contributors is to understand the "pull request" workflow. We recommend doing this via the functions in the **usethis** package.
+
+https://usethis.r-lib.org/articles/articles/pr-functions.html
+
+But the same things can be done by hand. See here for a full discussion:
+
+https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project
+
+
+### Resources
+
+[Pro Git](https://git-scm.com/book/en/v2). This is the best source for gaining a deeper understanding of git/Github. 
+
+[Happy Git With R](https://happygitwithr.com/) -- For information on Git clients, see chapter 8. We recommend using GitKraken.
+
+[Deleted files FAQ](https://www.git-tower.com/learn/git/faq/restoring-deleted-files)
+
+

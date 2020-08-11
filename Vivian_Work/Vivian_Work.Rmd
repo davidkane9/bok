@@ -1,0 +1,32 @@
+---
+title: "Vivian's Notes"
+author: "Vivian Zhang"
+date: "5/11/2020"
+output: html_document
+---
+
+This file keeps track of my work.
+
+# TODOS
+New probability assignment
+
+# Animation ideas
+https://paldhous.github.io/ucb/2018/dataviz/week14.html
+
+# Good resources for animations (thank you Robbie for sharing these)
+- Rstudio Community
+- Stack Overflow
+- Comments from Thomasp85 on his wiki for gganimate https://github.com/thomasp85/gganimate/wiki
+- Thomas85's github repo called "a grammar of animated graphics" https://github.com/thomasp85/gganimate
+- Thomas85's issues page with questions and answers https://github.com/thomasp85/gganimate/issues
+- Useful Stack Overflow page https://stackoverflow.com/questions/61446108/animated-dot-histogram-built-observation-by-observation-using-gganimate-in-r
+- May need to use image_append from the Magick library to stick animations together
+
+# Links for my work this week
+- https://tinystats.github.io/teacups-giraffes-and-statistics/06_standardError.html#creating_a_sampling_distribution
+
+Info on installing d3rain at the bottom of this page:
+https://rdrr.io/github/daranzolin/d3rain/
+
+I tried installing d3rain and it didn't work at first. This Rstudio community
+post answered my question: https://community.rstudio.com/t/install-packages-unable-to-access-index-for-repository-try-disabling-secure-download-method-for-http/16578

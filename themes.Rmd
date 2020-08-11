@@ -1,0 +1,179 @@
+---
+title: "The Four Cardinal Virtues for Bayesian Data Science"
+author: "David Kane"
+output: html_document
+---
+
+## Key Themes
+
+We focus on the four [Cardinal Virtues](https://en.wikipedia.org/wiki/Cardinal_virtues).
+
+The four key themes of the book, and of Gov 50, are *Prudence* (look at the data before we start; try to determine if this data will actually answer our question, validity, ethics), *Justice* (make sure that the *model structure* --- Preceptor Table and mathematics --- matches reality enough), *Fortitude*  (creating the *data generating mechanism* via code, looking at residuals and fitted values, avoiding overfitting and other mistakes) and *Temperance* (be modest in how we use the model we have created, no sharp null tests).  Almost every chapter should mention at least some of themes. And every chapter after 5 must mention at least one aspect of all four. The more that we discuss these themes, over and over again, the more likely students are to understand them and to remember them. Each time you discuss a theme, place its image on the side margin.
+
+## Prudence
+
+Prudence encompasses two issues: the map from concept to data and the relevance of the estimand. (In the future, we might put ethical issues here, but not this year.)
+
+First, are the variables/numbers we have accurately capturing the concepts we care about? From *Regression and Other Stories*:
+
+> Most important is that the data you are analyzing should map to the research question you are trying to answer. This sounds obvious but is often overlooked or ignored because it can be inconvenient. Optimally, this means that the outcome measure should accurately reflect the phenomenon of interest, the model should include all relevant predictors, and the model should generalize to the cases to which it will be applied.
+
+> For example, with regard to the outcome variable, a model of incomes will not necessarily tell you about patterns of total assets. A model of test scores will not necessarily tell you about child intelligence or cognitive development.
+
+> Choosing inputs to a regression is often the most challenging step in the analysis. We are generally encouraged to include all relevant predictors, but in practice it can be difficult to determine which are necessary and how to interpret coefficients with large standard errors. ...
+
+> A sample that is representative of all mothers and children may not be the most appropriate for making inferences about mothers and children who participate in the Temporary Assistance for Needy Families program. However, a carefully selected subsample may reflect the distribution of this population well. Similarly, results regarding diet and exercise obtained from a study performed on patients at risk for heart disease may not be generally applicable to generally healthy individuals. In this case assumptions would have to be made about how results for the at-risk population might relate to those for the healthy population. Data used in empirical research rarely meet all (if any) of these criteria precisely. However, keeping these goals in mind can help you be precise about the types of questions you can and cannot answer reliably.
+
+Second, *estimands* are the thing we want to know. If we could see all possible numbers, calculating an estimand would be just a matter of arithmetic. But data is always missing, so we need to estimate. Use a Preceptor Table, remind readers what it is, and highlight how we begin by asking what would we know if we could know everything. Then, we show what we do, in fact, know. Inference is the procedure by which we replace the question marks. Perhaps this is not as critical a point as I keep thinking. What are some concrete examples where someone is estimating something easy to estimate, like the mean, when they should really be estimating something else more directly relevant to their actual problem? Perhaps concepts like causal effect on the treated apply here? 
+
+This connects to the idea of the objective function. We have a problem to solve, but our answer will never be certain. Different sorts of errors lead to different costs. If each unit of error costs you a dollar, then the median is a better estimand to use than the mean, for example. If you are only going to act on your outliers, then you don't care much, if at all, about accuracy in the center of the distribution. Example here might be criminal justice sentencing guidelines.
+
+
+## Justice
+
+There are two key aspects of justice: predictive/causal and mathematical formula.
+
+### Predictive versus Causal Models
+
+First, we need to determine if we are modeling (just) for prediction or are we (also) modeling for causation. (Predictive models care nothing about causation. Causal models are often also concerned with prediction, if only as a means of measuring the quality of the model.)
+
+Begin with the Preceptor Table. Each such discussion highlights the distinction between models for prediction and models for causal estimation. (ModernDive has a [useful discussion](https://moderndive.com/5-regression.html): models for prediction versus models for explanation.) We use the same mathematical models in both cases! 
+
+Every model is predictive, in the sense that, if you give me new data --- and it is drawn from a stable distribution --- then I can give you a predictive forecast. But only a subset of those models are causal, meaning that, for a given individual, you can change the value of one input and figure out what the new output would be and then, from that, calculate the causal effect.
+
+With prediction, all we care about is forecasting Y given X on some as-yet-unseen data --- implying that the Preceptor Table has rows in which we know all the X but not the Y. But there is no notion of "manipulation" in such models. We don't pretend that, for Joe, we could turn variable X from a value of 5 to a value of 30 by just turning some knob and, by doing so, cause Joe's value of Y to change from 17 to 23. We can compare two people (or two groups of people), one with X equals 5 and one with X equals 30, and see how they differ in Y. The basic assumption of predictive models is that there is only one Y for Joe. There are not, by assumption, two possible values for Y, one if X equal 5 and another if X equals 30. The Preceptor Table has a single column under Y.
+
+With causal inference, however, we can consider the case of Joe with X = 5 and Joe with X = 30. Again, the same mathematical model can be used. And both models can be used for prediction, for estimating what the value of Y will be for a yet-unseen observation with values X. But, in this case, instead of only a single column in the Preceptor Table for Y, we have at least two (and possibly many) such columns, one for each of the potential outcomes under consideration.
+
+Tl;dr: *The difference between prediction models and causal models is that the former have one column for Y and the latter have more than one.* 
+
+A related issue is the different types of Preceptor Tables. All of these are Preceptor Tables, but it is useful, I think, to have a clear description of the different types. Recall: **A Preceptor Table is a table with rows and columns for all the data that we would (reasonably) like to have.** If we had a Preceptor Table with no questions marks --- which we describe below as the ideal Preceptor Table --- we could calculate the number we want without the need for any inference.
+
+First, the infinite Preceptor Table is well described in Chapter 3. We never use these, but it useful to understand them, and the assumptions we must make to work with something simpler. This connects to the issue of realism. Indeed, one way to think about the key assumptions you are making in your analysis is to think clearly about how you decrease the size of the infinite Preceptor Table, mostly by assuming that certain rows and columns are "exchangeable."
+
+Second, the ideal Preceptor Table is the Preceptor Table with no question marks, and with a reasonable number of rows and columns. Conceptually, this is the heart of the analysis. 
+
+Third, the actual Preceptor Table is the Preceptor Table with all the annoying question marks which the real world saddles us with. 
+
+The central problem in inference is to fill in the question marks on the Actual Preceptor Table.
+
+Note that the concept of a Preceptor Table is more subtle than it at first appears. For example, consider a problem in which we are using `party` to predict `income` with the `trains` data. Naively, it might look like we don't have any question marks. For all 115 rows in the data, we have `party` and `income`. But the Preceptor Table we really need has more than 115 rows because we are trying to draw inferences about people not in the sample of 115. What if a new person shows up, tells us their party, and asks us to guess their income? The Ideal Preceptor Table would include their row, with the data for `party` present but the data for `income` a question mark.
+
+### Mathematical Model
+
+Second, we need to describe the math of the model, but in the simplest possible way, similar to how [ModernDive](https://davidkane9.github.io/PPBDS/regression.html#model1) does it. Start with the big idea. Every outcome is the sum of two parts: the model and what is not in the model:
+
+$$outcome = model + what is not in the model$$
+It doesn't matter what the outcome is. It could be the result of a coin flip, the weight of a person, the GDP of a country. Whatever *outcome* you are considering is always made up of two parts. The first is the model you are creating. The second is all the stuff --- all the blooming and buzzing complexity of the real world --- which is not a part of the model.
+
+Instead of using vectors --- which are confusing --- we just give the math for one observation. We always include at least two equations: one with the i's and one with the hats.
+
+With the i's, we have something like:
+
+$$ y_i = b_0 + b_1 x_i + \epsilon_i $$
+
+
+The point of this is to give the math which relates an actual observation for unit i --- the value of Y and the value of the X's --- to each other. The model will also include (unknown and unknowable) parameters, in this case, $b_0$, $b_1$ and $\epsilon_i$. The key distinction is between the data --- the thing which the world shows us and which is in our Preceptor Table, the $y_i$'s and $x_i$'s --- and the parameters, the things which the world hides from us, the things we can never know for sure.
+
+The second equation involves the hats:
+
+$$ \hat{y_i} = \hat{b_0} + \hat{b_1} x_i  $$
+Again, you can never know the true value of a parameter. But, given your assumptions and your data, you can derive an estimate for the parameters. (Keep in mind, in this simple version, we are ignoring the uncertainty associated with our estimation of the parameters.)
+
+The key is that, once you have your estimated betas, you can "stick" the $x_i$ for observation $i$ into the formula and, from those two parts, calculate a $\hat{y_i}$. (Of course, in most textbooks, we do all this in terms of vectors, but I think that keeping everything in terms of a single unit makes things simpler.) Note a key unstated assumption: $\epsilon_i = 0$. That is a big assumption, or, perhaps more accurately, it is a necessary step to get anything accomplished.
+
+Once we have $\hat{y_i}$, we can calculate $\hat{\epsilon_i} = y_i - \hat{y_i}$. This notation makes sense in that, if $\epsilon_i$ is something that we don't know, then we need to estimate it, and anything we estimate should have a "hat." But, for historical reasons, this notation is rarely used. Instead, we write $r_i = y_i - \hat{y_i}$, where $r_i$ is the "residual" for observation $i$.
+
+Last step:
+
+$$ y_i = \hat{b_0} + \hat{b_1} x_i + r_i $$
+
+This mathematics, although simple, allows us to be fairly precise in describing the key concepts discussed below: parameter uncertainty (our uncertainty about the betas), unmodeled variation (how big are the residuals), fitted values (the $\hat{y}$'s) and the data generating mechanism (which is constructed by combining the fitted values and unmodeled variation).
+
+$$outcome = fitted values + unmodeled variation$$
+
+
+Note that the 
+
+
+## Fortitude
+
+The three languages of data science are words, math and code, and the most important of these is code. We need to explain the structure of our model using all three languages, but we need *Fortitude* to implement the model in code.
+
+There are few more important concepts in statistics and data science than the "Data Generating Mechanism." Our *data* --- the data that we collect and see --- has been *generated* by the complexity and confusion of the world. God's own *mechanism* has brought His data to us. Our job is to build a model of that process, to create, on the computer, a mechanism which generates fake data consistent with the data which we see. With that DGM, we can answer any question which we might have. In particular, with the DGM, we provide predictions of data we have not seen and estimates of the uncertainty associated with those predictions. There are two parts to the DGM: the fitted model and unmodeled variation.
+
+In simple cases, the DGM is so simple that it barely merits such a fancy name. But, in the professional world, the DGM is often complex. However, the basic ideas are always the same. Recall the key equation:
+
+$$outcome = model + what is not in the model$$
+
+After noting this formula, each chapter should create a plot with three histograms in a row --- left-to-right, the outcome (i.e., a histogram or density of Y), the fitted value (which is sometimes a spike, sometimes two spikes and so on) and, finally, the residuals. This highlights how we have *decomposed* the outcome into two parts: the model and the unmodeled variation.
+
+
+If you want to use the model to predict future outcomes, or past outcomes which you have not "seen" yet, then those predictions must account for both the parameter uncertainty embedded in the "model" part of the equation. But there is more uncertainty than just that! There is also the unavoidable noise associated with the "other stuff," all the messy realities of the world which are not included in your model. 
+
+We need a "machine" which generates these predictions, which is the same thing as a machine which fills in all the question marks in the Actual Preceptor Table, which is the same thing as a machine which produces "fake data" which looks a lot like our actual data.  
+
+
+Of course, that is not exactly correct since those fitted values do not include any uncertainty associated with the parameters. And I think that is OK in chapters 7,8 and 9. We should note it each time, however. Then, in chapter 10, we solve it with `posterior_linpred()` and `posterior_predict()`. Also, even if you get the correct amount of uncertainty into the fitted values, it is not (?) true that variation in outcomes equals variation in fitted values plus variation in residuals. That being true requires (?) orthogonality, which is not always true, even if it is almost always assumed. But, big picture, I still think this plot gets to the heart of the issue.
+
+Or maybe the fitted values can include that uncertainty! For example, in the simple coin tossing example which finishes chapter 3, we 
+
+Recall the Actual Preceptor Table with all those question marks. Now we have a tool for filling in those question marks. Then we have the ability to answer the questions which we started the chapter.
+
+This also leads directly to the concept of *posterior predictive checks*, which is just fancy terminology for helping to see if your model makes sense. If your model is reasonable, then you would expect to see Z (a feature of the real data) in either new data or in fake data generated by your model. If you see Z, then you should have more faith in your model. If you don't, then something is wrong. In what chapter should we start discussing this?
+
+### Fitted Model
+
+A key concern in the fitted model is *parameter uncertainty*.
+
+We will mention this each chapter, but we might not take it "seriously," in terms of accounting for it correctly in calculating prediction intervals, until chapter 10.
+
+Even if the model has correct form, we still need to estimate the parameters. We will never know them perfectly. If our forecasts assume that we do, then we will be over-confident. Example: Confidence interval for the mean. Posterior distribution of the estimand is the key concept. Always recall what a parameter is. (We all need to think harder about this!) A parameter is something which does not exist in the real world. (If it did, or could, then it would be data.) Instead, a parameter is a mental abstraction, a building block which we will use to to help us accomplish our true goal: To replace at least some of the questions marks in the Preceptor Table. But, since parameters are mental abstractions, we will always be uncertain as to their value, however much data we might collect. So, we are uncertain. We express this uncertainty with a probability distribution. (Read chapter 3.) Indeed, we express all uncertain things with probability distributions. We generally call the probability distribution for a parameter the "posterior distribution" because it represents our uncertainty after we have looked at the data. It is conditional on the data. ("Posterior" means "after.") One of the key points of chapter 3 is to make all this clear. But we still need to re-enforce the point, in your own words, in every single chapter.
+
+In many chapters, we just give the `tidy(conf.int = TRUE)` numbers which give the 95% confidence interval. Nothing wrong with that. But, really, the confidence interval only gives us a bit about the shape of the posterior distribution. Some parameters might have the same 95% CI's but still have very different shapes. See the example of the 90th percentile of age given in chapter 8, reviewing the techniques from chapter 7. When we use rstanarm in later chapters, we should provide the whole posterior.
+
+## Unmodeled Variation
+
+(This may be difficult to talk about since we don't (?) write down formulas with error terms.) But each chapter should discuss the concept of a *residual*. But, to define a residual, we need to define the *fitted* value. Again, these concepts apply in every chapter from 7 forward.  Even if we have perfect parameter estimates for a model structure which matches the unknown data generating mechanism, we still won't make perfect predictions. Some randomness is intrinsic. Example: prediction for an individual. Keep in mind the distinction between a fitted value and a prediction. For example, a coin may have p = 0.6 --- meaning it is more likely to come up heads --- because it came up heads in 600 out of 1,000 previous flips. 0.6 is the *fitted value*. But it is not a prediction. A prediction must be made in the form that can actually be observed in the data. In this case, we should predict H.
+
+It is very useful to plot the distribution of the epsilons. Sometimes it looks normal. But, often, it looks really weird, like for coin flips when it is always either -0.6 or 0.4 (in a case where $p = 0.6$).
+
+
+*Prediction uncertainty* highlights our ability, or lack thereof, to predict the future. This can be conceptualized as either an attempt to forecast the literal future or as an attempt to model data points which have been left out of the original analysis in some way. Prediction uncertainty has two primary sources: *parameter uncertainty* and *unmodeled variation*. 
+
+
+## Temperance
+
+Prudence is the most important virtue in data science. Your models are never as good as they appear to be. The world is complex and, even worse, always changing. We must be aware of the *unknown unknowns*, concerned about how *representative* our data/model is to our problem, worried about the realism of our assumptions and leery of the siren call of testing.
+
+###  Unknown Unknowns
+
+What we really care about is data we haven't seen yet, mostly data from tomorrow. But what if the world changes, as it always does? If it doesn't change much, maybe we are OK. If it changes a lot, then what good will our model be? In general, the world changes some. That means that are forecasts are more uncertain that a naive use of our model might suggest. This is connected to the concept of *representativeness*, as discussed in *Regression and Other Stories*:
+
+> A regression model is fit to data and is used to make inferences about a larger
+population, hence the implicit assumption in interpreting regression coefficients is that the sample
+is representative of the population.
+
+> To be more precise, the key assumption is that the data are representative of the distribution of the outcome y given the predictors x1; x2; : : : , that are included in the model. For example, in a regression of earnings on height and sex, it would be acceptable for women and tall people to be overrepresented in the sample, compared to the general population, but problems would arise if the sample includes too many rich people. Selection on x does not interfere with inferences from the regression model, but selection on y does. This is one motivation to include more predictors in our regressions, to allow the assumption of representativeness, conditional on X, to be more reasonable.
+
+> Representativeness is a concern even with data that would not conventionally be considered as a sample. For example, the forecasting model in Section 7.1 contains data from 16 consecutive elections, and these are not a sample from anything, but one purpose of the model is to predict future elections. Using the regression fit to past data to predict the next election is mathematically equivalent to considering the observed data and the new outcome as a random sample from a hypothetical superpopulation. Or, to be more precise, it is like treating the errors as a random sample from the normal error distribution. For another example, if a regression model is fit to data from the 50 states, we are not interested in making predictions for a hypothetical 51st state, but you may well be interested in the hypothetical outcome in the 50 states in a future year. As long as some generalization is involved, ideas of statistical sampling arise, and we need to think about representativeness of the sample to the implicit or explicit population about which inferences will be drawn. This is related to the idea of generative modeling, as discussed in Section 4.1.
+
+### Realism
+
+Third, we always need to discuss the "realism" of the model. Does the structure of our model --- i.e., linear regression, CART, which variables we include --- match the world? If it does not --- and it never does --- then all the inferences we make will be wrong. We just hope that they won't be too wrong.
+
+Also, are all the assumptions which allowed us to move from the infinite Preceptor Table to the ideal Preceptor Table plausible? For example, does the treatment we have data for correspond to the treatment which new people would receive? Are the people in the future like the people who we have data for? More detail needed . . .
+
+In most chapters, **this discussion finishes with a table of the data we have**. (So, it is not a Preceptor Table!) Each row is a unit for which we have Y (which might have one (predictive) or more than one (causal) columns) and Xs. We add two new columns to this table. The first is the fitted value for the Xs in that row. This is $\hat{y}$. The second new column is the residual, which is $\epsilon$. (These are the headers of those columns. Each row is actually an individual $\hat{y_i}$  and $r_i$.)
+
+Reminder: Things with hats are things we do not know. So, we have to estimate them. Hat means estimate. Strictly speaking, $r_i$ should really be $\hat{\epsilon_i}$ since it is not something we have data for, like $y$ and the $x$'s. However, the convention (I think!) is to not use $\hat{\epsilon_i}$. (This may also be related to degrees of freedom corrections in using $r_i$ to estimate $\epsilon_i$. That is, I don't think that $r_i$ is a good estimate for $\epsilon_i$. Need to investigate this.)
+
+### Testing is Evil
+
+Null hypothesis testing is a mistake. There is only the data, the models and the summaries therefrom. Describe an hypothesis test each chapter, and then dismiss it. Play the prediction game. That, perhaps, provides a useful framework for why NHST is stupid. Or, rather, you play the prediction game to figure out which statistical procedures are best --- and or, how well procedure X works --- and then use that information to make a decision. Explain what a test is, and why we think it is a waste of time to do them, and why people do them anyway. Key issue: If p = 0.04 really makes you do something totally different than p = 0.06, then either you (or the system within which you are operating) is stupid.
+
+
+
+
+
+
