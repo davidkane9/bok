@@ -7,14 +7,10 @@ output: html_document
 
 # Next Meeting
 
-Test commit.
-
 
 ```{r echo=FALSE, fig.margin=TRUE}
 knitr::include_graphics("https://imgs.xkcd.com/comics/scientist_tech_help.png")
 ```
-
-Can also add a fig.caption. 
 
 ```{r echo=FALSE, fig.cap="[Don Rubin was a professor of Statistics at  Harvard.](https://www.uni-bamberg.de/fileadmin/bagss/Bilder/Editorial/21711197.jpg).", fig.margin = TRUE}
 knitr::include_graphics("03-rubin-causal-model/images/don_rubin.jpg")
