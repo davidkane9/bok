@@ -8,14 +8,6 @@ output: html_document
 # Next Meeting
 
 
-https://github.com/agmath/AppliedStatsInteractive
-
-https://github.com/allisonhorst/stats-illustrations
-
-https://bookdown.org/roback/bookdown-BeyondMLR/
-
-https://bookdown.org/yihui/rmarkdown-cookbook/equatiomatic.html
-
 ```{r echo=FALSE, fig.margin=TRUE}
 knitr::include_graphics("https://imgs.xkcd.com/comics/scientist_tech_help.png")
 ```
