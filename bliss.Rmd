@@ -7,8 +7,6 @@ output: html_document
 
 ### Evelyn
 
-Create shell for tutorials 5, 6, 7 and 8.
-
 Make chapter 11 knit.
 
 Highlight the issue of different objective functions. RMSE should not be privileged just because people did not have computers 50 years. 

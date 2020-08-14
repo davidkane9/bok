@@ -8,43 +8,25 @@ output: html_document
 # Next Meeting
 
 
-```{r echo=FALSE, fig.margin=TRUE}
-knitr::include_graphics("https://imgs.xkcd.com/comics/scientist_tech_help.png")
-```
-
-```{r echo=FALSE, fig.cap="[Don Rubin was a professor of Statistics at  Harvard.](https://www.uni-bamberg.de/fileadmin/bagss/Bilder/Editorial/21711197.jpg).", fig.margin = TRUE}
-knitr::include_graphics("03-rubin-causal-model/images/don_rubin.jpg")
-```
-
-https://bookdown.org/yihui/rmarkdown-cookbook/install-latex.html
-
-Bug in bookdown: if you have a section title that is the same as the section title elsewhere, and one of those section titles has a reference, then there will be a conflict. But perhaps this only arises if your section title is the same as the name of one of our chapters?
-
-Lesson: Do not use a section title which is the same as the title of one of our chapters. It messes up the menu.
-
-Section headings (other than Chapter titles) are in sentence case (with only the first word capitalized, unless it is something always capitalized) rather than title case (in which all words except small words like "the" and "of" are capitalized. Chapter titles (Continuous Response) are in title case. Section heading do not end with a period.
-
-Switch Courage for Fortitude
-
 Make a 15 second video, put it on YouTube, add it as as sidemargin. "We don't estimate parameters because we care about parameters. Parameters are imaginary! Like unicorns! [Put finger on forehead and imitate unicorn.] We estimate parameters to build Data Generating Mechanisms. And with a DGM, you can move the world!"
 
 
 ## Research Associates, Harvard Project on Visualization and Data Science
 
-Jessica Edwards; chapter 1
+chapter 1
 Emma Freeman; chapter 2
 Cassidy Bargell; chapter 3 
-Evelyn Cai; chapter 4
+chapter 4
 
 Vivian Zhang; chapter 5
 Mak Famulari; chapter 6
 Tahmid Ahmed; chapter 7  
-Miro Bergam; chapter 8  
+chapter 8  
 
 Hannah Valencia; chapter 9
 Erin Guetzloe; chapter 10  
-Evelyn Cai; chapter 11
-Miro Bergam; chapter 12
+chapter 11
+chapter 12
 
 Thomas Weiss; PPBDS.data
 Yao Yu; book-builder
