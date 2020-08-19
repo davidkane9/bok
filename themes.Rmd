@@ -70,6 +70,9 @@ Instead of using vectors --- which are confusing --- we just give the math for o
 
 With the i's, we have something like:
 
+$$ y_i = b_f x_{female} + b_m x_{male} + \epsilon_i $$
+Or
+
 $$ y_i = b_0 + b_1 x_i + \epsilon_i $$
 
 
@@ -93,7 +96,7 @@ This mathematics, although simple, allows us to be fairly precise in describing 
 $$outcome = fitted values + unmodeled variation$$
 
 
-Note that the 
+
 
 
 ## Fortitude
