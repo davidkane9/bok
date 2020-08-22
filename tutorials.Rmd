@@ -319,7 +319,7 @@ read_csv("files/mystuff.csv")
 
 should work, both in her examples and in her questions. You might also include jpg/png files here.
 
-* The most annoying part about writing questions is all the hints and answer checking. So don't do that first! Just write the questions, and include the answer. Then, once we decide we like the questions, you can move that answer to the hint, the answer check, whatever. Example:
+* The most annoying part about writing questions is the hints. So don't do that first! Just write the questions, and include the answer. Then, once we decide we like the questions, you can move that answer to the hint, or leave it as a comment in the document for future reference. Example:
 
 ````rmarkdown
 ### Question 1
@@ -331,10 +331,9 @@ library(gapminder)
 ```
 ````
 
-You can add hints to your questions, but do not include the solutions. The questions should be straightforward enough to answer without solutions.
+You can add hints to your questions, but do not include the solutions. The questions should be straightforward enough to answer without solutions. You should always include the answer in a comment. If it is a series of questions which builds to one final pipe, you can just provide the entire solution at the start (or end). Need need to break it up.
 
 If you are writing a multiple choice question, do not allow students to re-try the question if they get it wrong. They will just keep clicking boxes randomly.
-
 
 * No videos in tutorials. Minimal text in tutorials.
 
@@ -342,11 +341,8 @@ If you are writing a multiple choice question, do not allow students to re-try t
 
 * Make tutorial questions easy. 95% of students should be able to get 95% of the questions almost immediately. We save the tricky stuff for the problem sets. If you have a choice between an easy way of asking a question (for example, you provide the code framework) and a hard way (no code provided), then do both! Ask the easy way first, and then the hard way.
 
-* If you want to provide an example code chunk, use "..." to indicate a spot which students need to fill in with a variable name or argument value or whatever. Do not use "----" for this purpose. 
+* If you want to provide an example code chunk, use "..." to indicate a spot which students need to fill in with a variable name or argument value or whatever. Do not use "----" for this purpose. Note that, for such code --- whether in an answer or a hint --- you must set eval=FALSE. Indeed, anything in a code chunk which is not working R code must have eval=FALSE.
 
-<!-- DK: Or maybe "__" is the best approach? -->
-
-* If you are asking a complex question, it can be tough to check that the student's code is "correct" since there are so many ways in which a student might approach the problem. Simple solution: Check with a multiple choice question. There are many 4 line pipes which can answer a question. We don't care which approach students use, as long as they get the answer at the end.
 
 * You can test your tutorial by, first, pressing "Install and Restart" from the "Build" panel. This installs the whole **PPBDS.data** package and restarts your R session. Your tutorial should be available from the "Tutorial" pane. (Note that you must update your tutorial.html file first. That does not occur automatically. Do so by hitting "Run Document".)
 
@@ -363,12 +359,10 @@ If you are writing a multiple choice question, do not allow students to re-try t
 
 We will create our tutorials using the [learnr](https://rstudio.github.io/learnr/) package. See [here](https://education.rstudio.com/blog/2020/05/learnr-for-remote/) and [here](https://education.rstudio.com/blog/2020/07/learning-learnr/) for the latest from RStudio on the topic. 
 
-We will be using [learnrhash](https://github.com/rundel/learnrhash) to confirm completion.
-
 
 ### Heroku Deployment Steps
 
-Previuously, we used Heroku to deploy the tutorials. We might still use this to deploy the book chapters. So, we will leave this here for now.
+Previously, we used Heroku to deploy the tutorials. We might still use this to deploy the book chapters. So, we will leave this here for now.
 
 1. Go to [this website](http://hmdc.gitbook.io/r/deploy/setupenvironment) and follow the steps to download Heroku. Git should already be installed.
 
@@ -412,10 +406,6 @@ Other Notes:
 
 ### List of Useful Links
 
-* If we want to incorporate Shiny Clipr into the learnrhash submission area, reference Colin's code here: https://github.com/rundel/learnrhash/blob/master/R/shiny.R
-
-* It's not best practice to install non-CRAN dependencies automatically. If we do want to in the future, refer to the MiniCRAN package repository: https://community.rstudio.com/t/downloading-non-cran-dependencies-from-github/73211/2
-
 * If we want to incorporate '-' code placeholders, reference [this learnr fix.](https://github.com/rstudio/packrat/pull/551)
 
 * Allison Horst's naniar tutorial repo is here: https://github.com/allisonhorst/explore-na/blob/master/explore_na_tutorial.Rmd
@@ -451,7 +441,9 @@ Other Notes:
 
 ### Suggestions from Allison Horst
 
-* She is concerned about user loads for published Shiny apps - would recommend that we use the basic or higher plan
+The main question was: How do we incorporate tutorial questions directly into the chapter itself?
+
+* She is concerned about user loads for published Shiny apps - would recommend that we use the basic or higher plan.
 
 * She thinks using Desiree's method of embedding one exercise at a time might get unreasonable for a book of our size, but suggested that we could host 12 different ShinyApps corresponding to each chapter, and then link to each chapter in one central location. (Kind of like the combined tutorials app I created via HMDC)
 
@@ -465,7 +457,7 @@ Other Notes:
 
 ### Other Items
 
-* To create a hint based on custom markdown content simply add a <div> tag with an id attribue that marks it as hint for your exercise. Like this:
+* To create a hint based on custom markdown content simply add a <div> tag with an id attribute that marks it as hint for your exercise. Like this:
 
 <div id="filter-hint">
 **Hint:** You may want to use the dplyr `filter` function.
