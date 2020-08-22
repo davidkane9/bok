@@ -44,6 +44,7 @@ and follow the instructions. You must put the PAT you generate into your .Renvir
 
 remotes::install_github("grimbough/msmbstyle")
 remotes::install_github("davidkane9/PPBDS.data")
+install.packages("renv")
 
 Because we are still improving **PPBDS.data**, you should re-install it every week or so.
 
@@ -95,6 +96,8 @@ Again, these commands bundle up a bunch of git commands which you could do "by h
 f) I will leave aside for now discussion about the back-and-forth discussions we might have around your pull request. I will probably just accept it. Your changes will go into davidkane/PPBDS and then be distributed to everyone else when they run `pr_pull_upstream()`.
 
 g) You can now continue on. There is no need to wait for me to deal with your pull request. There is no need to create another branch, much less to fork/clone/download again. You just keep editing your files, knitting, and committing. When you feel you have completed another chunk of work, just run `pr_push()` again.
+
+6) Now you almost ready to start making contributions to the book! The last step is to get **renv** setup so that you are running the same package versions as everyone else. You should have already installed the **renv** package, so first run `renv::consent(provided = TRUE)` to allow **renv** to make changes to your packages. Then, run `renv::restore()` to install all the packages used in the book and ensure all your packages are the same version as everyone else.
 
 ## Some Common Problems
 
