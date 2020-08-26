@@ -14,14 +14,14 @@ Make a 15 second video, put it on YouTube, add it as as sidemargin. "We don't es
 ## Research Associates, Harvard Project on Visualization and Data Science
 
 chapter 1
-Emma Freeman; chapter 2
+chapter 2
 Cassidy Bargell; chapter 3 
 chapter 4
 
 Vivian Zhang; chapter 5
 Mak Famulari; chapter 6
 Tahmid Ahmed; chapter 7  
-chapter 8  
+Diego Ares; chapter 8  
 
 Hannah Valencia; chapter 9
 Erin Guetzloe; chapter 10  
@@ -35,10 +35,6 @@ Jake Berg; tester
 Liam Rust; tester
 Colin Rust; tester
 Carine Hajjar; gt and gtsummary appendix
-
-Tyler Simko
-Alla Baranovsky
-
 
 ## When People Join
 

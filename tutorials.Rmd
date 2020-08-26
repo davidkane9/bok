@@ -237,7 +237,22 @@ Example series of questions for writing a function:
 
 * If you would like to write an open-ended question in which students can type out a text response, use `question_text()`. More information on the syntax can be found here: https://rdrr.io/cran/learnr/man/question_text.html
 
-* Make sure to regularly knit your tutorial to make sure it works. Always knit your tutorial before submitting a pull request. Even better is to run R CMD check to confirm that you have not broken one of the test cases.
+
+
+### Finding and Fixing Errors
+
+How do you know if your tutorial will work when other people use it?
+
+First, trying knitting it by hitting Run Document. This (completely?) mimics the experience that users will have. I think (!) that a better test might be to "Install and Restart" and then hit "Start Tutorial" from tjhe Tutorial pane. Again, I am not sure what are the differences between these two approaches. The key point, however, is that neither of these is a full test.
+
+Second, to do a full test, you need to run R CMD check. You do that by hitting the "Check" button (with the green check mark) under the Build pane. If this passes, you are done. So, you should always run this before submitting a pull request.
+
+What do you do if Check fails?
+
+First, read the error message at the bottom of the Build pane. You want to see "R CMD check succeeded." If not, there is a problem. The error message will often provide a clue as to where in your code the error occured.
+
+Second, if that error message is not detailed enough, go to the PPBDS.data.rcheck folder. This is a folder created by the R CMD check process, and delete if the process succeeds. If the process fails, the .rcheck folder stays around so that you can examine it. The key file in there is testthat.Rout.fail, which should be in the tests directory. It has more details.
+
 
 
 ## Instructions for Creating the Actual Tutorial
