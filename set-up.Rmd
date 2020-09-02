@@ -72,7 +72,7 @@ This may seem like overkill, but, as the SCM book explains, it is how (essential
 
 Note that this command should automatically put you in a new RStudio session with the PPBDS project.
 
-b) The next step is to get **renv** setup so that you are running the same package versions as everyone else. You should have already installed the **renv** package, so first run `renv::consent(provided = TRUE)` to allow **renv** to make changes to your packages. Then, run `renv::restore()` to install all the packages used in the book and ensure all your packages are the same version as everyone else. If you end up needing to install a new package --- which should be rare --- just install it and then type `renv::snapshot()`. This will update the renv.lock file with the new packagae. You just commit and push the bew version of renv.lock, and that shares the information with everyone else on the project.
+b) The next step is to get **renv** setup so that you are running the same package versions as everyone else. You should have already installed the **renv** package, so first run `renv::consent(provided = TRUE)` to allow **renv** to make changes to your packages. Then, run `renv::restore()` to install all the packages used in the book and ensure all your packages are the same version as everyone else. If you end up needing to install a new package --- which should be rare --- just install it and then type `renv::snapshot()`. This will update the renv.lock file with the new package. You just commit and push the bew version of renv.lock, and that shares the information with everyone else on the project.
 
 c) Create a branch to work from:
 
